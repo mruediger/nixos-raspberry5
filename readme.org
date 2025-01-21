@@ -1,0 +1,43 @@
+#+TITLE: NixOS setup for Raspberry 5
+
+* Installation
+
+If building remotely, make sure to proplery setup the community cache by adding the following options to your hosts nix config.
+
+#+begin_src nix :results output
+  nix.settings.trusted-public-keys = [
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+  ];
+
+  nix.settings.substituters = [
+    "https://nix-community.cachix.org"
+  ];
+#+end_src
+
+** SD-Card image
+
+This creates an image file that can be moved onto the SD card used to boot the raspberry pi.
+
+#+begin_src bash :results output
+  nix build '.#nixosConfigurations.pi5-test.config.system.build.sdImage' --system aarch64-linux
+#+end_src
+
+#+begin_src bash :results output
+  nix run nixpkgs#nix-output-monitor -- build '.#nixosConfigurations.pi5-test.config.system.build.sdImage'
+#+end_src
+
+** Update installation
+
+This updates the raspberry pi bthrough ssh.
+
+#+begin_src bash :results output
+  nixos-rebuild test --flake '.#pi5-test' --use-remote-sudo --build-host rpi5.local --target-host rpi5.local
+#+end_src
+
+
+
+
+* Credits
+
+https://github.com/nix-community/srvos
+https://github.com/nix-community/raspberry-pi-nix
