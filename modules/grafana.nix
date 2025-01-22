@@ -6,7 +6,6 @@ in
   services.grafana = {
     enable = true;
 
-
     settings = {
       smtp = {
         enabled = true;
@@ -36,7 +35,11 @@ in
   };
 
   services.grafana.provision.dashboards.settings.providers = [
-    { name = "Node Exporter Full"; folder = "Base"; options.path = ../dashboards/node-exporter-full.json; }
+    {
+      name = "Node Exporter Full";
+      folder = "Base";
+      options.path = ../dashboards/node-exporter-full.json;
+    }
   ];
 
   networking.firewall.allowedTCPPorts = [ 3000 ];

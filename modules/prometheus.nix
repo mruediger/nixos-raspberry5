@@ -1,4 +1,4 @@
-{ config,  ... }:
+{ config, ... }:
 {
   services.prometheus.exporters.node = {
     enable = true;
@@ -18,9 +18,11 @@
     scrapeConfigs = [
       {
         job_name = "node";
-        static_configs = [{
-          targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
-        }];
+        static_configs = [
+          {
+            targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
+          }
+        ];
       }
     ];
   };
