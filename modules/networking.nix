@@ -1,10 +1,10 @@
-{ ... }:
+{ hostname, ... }:
 let
   secrets = import ../crypt/networks.nix;
 in
 {
   networking = {
-    hostName = "rpi5";
+    hostName = hostname;
     wireless = {
       enable = true;
       networks = secrets;

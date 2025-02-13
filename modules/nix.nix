@@ -1,7 +1,19 @@
-{ ... }:
+{ pkgs, inputs, ... }:
 {
-  nix.optimise.automatic = true;
-  nix.settings.trusted-users = [ "@wheel" ];
+  environment.systemPackages = with pkgs; [
+    nixos-option
+  ];
+
+  nix = {
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
+    optimise.automatic = true;
+    settings.trusted-users = [ "@wheel" ];
+
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 
   systemd.services.nix-gc.serviceConfig = {
     CPUSchedulingPolicy = "batch";

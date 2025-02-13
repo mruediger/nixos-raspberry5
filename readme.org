@@ -30,9 +30,12 @@ This creates an image file that can be moved onto the SD card used to boot the r
 
 This updates the raspberry pi bthrough ssh.
 
-#+begin_src bash :results output
-  nixos-rebuild test --flake '.#pi5-test' --use-remote-sudo --build-host rpi5.local --target-host rpi5.local
+#+begin_src bash :async
+  nixos-rebuild switch --flake '.#pi5-test' --use-remote-sudo --build-host rpi5.local --target-host rpi5.local
 #+end_src
+
+#+RESULTS:
+: setting up /etc...
 
 
 * Credits

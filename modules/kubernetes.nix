@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   kubeMasterHostname = "main.kube";
-  kubeMasterIP = "192.168.0.156";
+  kubeMasterIP = "127.0.0.1";
   kubeMasterAPIServerPort = 6443;
 in
 {
@@ -20,12 +20,14 @@ in
 
   networking.extraHosts = "${kubeMasterIP} ${kubeMasterHostname}";
 
-  services.kubernetes = {
-    roles = [
-      "master"
-      "node"
-    ];
-    masterAddress = kubeMasterHostname;
-    apiserverAddress = "https://${kubeMasterHostname}:${toString kubeMasterAPIServerPort}";
-  };
+  services.etcd.enable = true;
+
+  #/nix/store/z88hhaq46sdqzkm0zas1sn284h7w87k9-source/nixos/modules/services/cluster/kubernetes/default.nix
+
+#  services.kubernetes = {
+#    roles = [ "master" ];
+#    easyCerts = true;
+#    masterAddress = kubeMasterHostname;
+#    apiserverAddress = "https://${kubeMasterHostname}:${toString kubeMasterAPIServerPort}";
+#  };
 }

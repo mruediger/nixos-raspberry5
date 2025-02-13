@@ -15,40 +15,31 @@
   };
 
   outputs =
+    inputs:
+    with inputs;
     {
-      self,
-      nixpkgs,
-      raspberry-pi-nix,
-    }:
-    let
-      basic-config =
-        { ... }:
-        {
-          raspberry-pi-nix.board = "bcm2712";
-          time.timeZone = "Europe/Berlin";
-          system.stateVersion = "24.11";
-        };
-    in
-    {
-      nixosConfigurations = {
-        pi5-test = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          modules = [
-            raspberry-pi-nix.nixosModules.raspberry-pi
-            raspberry-pi-nix.nixosModules.sd-image
-            basic-config
-
-            ./modules/networking.nix
-            ./modules/users.nix
-            ./modules/openssh.nix
-            ./modules/nix.nix
-            ./modules/headless.nix
-            ./modules/prometheus.nix
-            ./modules/grafana.nix
-            ./modules/kubernetes.nix
-          ];
-        };
-      };
+      nixosConfigurations =
+        let
+          configure = hostname: nixpkgs.lib.nixosSystem {
+            specialArgs = { inherit hostname inputs; };
+            system = "aarch64-linux";
+            modules = [
+              raspberry-pi-nix.nixosModules.raspberry-pi
+              raspberry-pi-nix.nixosModules.sd-image
+              ./modules/base-config.nix
+              ./modules/networking.nix
+              ./modules/users.nix
+              ./modules/openssh.nix
+              ./modules/nix.nix
+              ./modules/headless.nix
+              ./modules/prometheus.nix
+              ./modules/grafana.nix
+              ./modules/kubernetes.nix
+            ];
+          };
+          in {
+            pi5-a = configure "pi5-a";
+            pi5-b = configure "pi5-b";
+          };
     };
-
 }
