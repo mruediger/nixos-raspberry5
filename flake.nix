@@ -16,6 +16,7 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       raspberry-pi-nix,
     }:
@@ -44,7 +45,7 @@
             ./modules/headless.nix
             ./modules/prometheus.nix
             ./modules/grafana.nix
-            ./modules/smtp.nix
+            ./modules/kubernetes.nix
           ];
         };
       };
