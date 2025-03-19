@@ -20,7 +20,7 @@
     {
       nixosConfigurations =
         let
-          configure = hostname: nixpkgs.lib.nixosSystem {
+          configure = hostname: roles: nixpkgs.lib.nixosSystem {
             specialArgs = { inherit hostname inputs; };
             system = "aarch64-linux";
             modules = [
@@ -38,8 +38,8 @@
             ];
           };
           in {
-            pi5-a = configure "pi5-a";
-            pi5-b = configure "pi5-b";
+            pi5-a = configure "pi5-a" [ "master" ];
+            pi5-b = configure "pi5-b" [ "node" ];
           };
     };
 }

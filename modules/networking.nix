@@ -17,4 +17,12 @@ in
   };
 
   services.resolved.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = false;
+    ipv4 = true;
+    ipv6 = false;
+  };
 }
