@@ -1,7 +1,8 @@
-{ hostname, pkgs, lib, ... }:
+{ roles, pkgs, ... }:
 let
   kubeMasterHostname = "pi5-a.local";
   kubeMasterAPIServerPort = 6443;
+  certmgrPort = 8888;
 in
 {
   environment.systemPackages = with pkgs; [
@@ -17,18 +18,12 @@ in
     complete -F _complete_alias k
   '';
 
-#  services.etcd.enable = true;
-
-  #/nix/store/z88hhaq46sdqzkm0zas1sn284h7w87k9-source/nixos/modules/services/cluster/kubernetes/default.nix
-
-
-
-  #roles = lib.mkIf ( hostname != "pi5-a" ) [ "node" ];
-
-  networking.firewall.allowedTCPPorts = [ 8888 ];
+  networking.firewall.allowedTCPPorts = if ( builtins.elem "master" roles)
+                                        then [ certmgrPort kubeMasterAPIServerPort ]
+                                        else [ certmgrPort ];
 
   services.kubernetes = {
-    roles = if ( hostname == "pi5-a" ) then [ "master" ] else [ "node" ];
+    roles = roles;
     easyCerts = true;
     masterAddress = kubeMasterHostname;
     apiserverAddress = "https://${kubeMasterHostname}:${toString kubeMasterAPIServerPort}";

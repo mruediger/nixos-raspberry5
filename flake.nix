@@ -21,7 +21,7 @@
       nixosConfigurations =
         let
           configure = hostname: roles: nixpkgs.lib.nixosSystem {
-            specialArgs = { inherit hostname inputs; };
+            specialArgs = { inherit hostname roles inputs; };
             system = "aarch64-linux";
             modules = [
               raspberry-pi-nix.nixosModules.raspberry-pi
@@ -38,7 +38,7 @@
             ];
           };
           in {
-            pi5-a = configure "pi5-a" [ "master" ];
+            pi5-a = configure "pi5-a" [ "node" "master" ];
             pi5-b = configure "pi5-b" [ "node" ];
           };
     };
