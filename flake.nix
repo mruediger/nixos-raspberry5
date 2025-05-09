@@ -32,9 +32,7 @@
               ./modules/openssh.nix
               ./modules/nix.nix
               ./modules/headless.nix
-              ./modules/prometheus.nix
-              ./modules/grafana.nix
-              ./modules/kubernetes.nix
+              ./modules/k3s.nix
             ];
           };
           in {
