@@ -43,3 +43,7 @@ This updates the raspberry pi bthrough ssh.
 - This comment got me started with the initial configuration: https://github.com/NixOS/nixpkgs/issues/260754#issuecomment-2501839916
 - This repo makes working with raspberry pis easy https://github.com/nix-community/raspberry-pi-nix
 - Lots of the headless settings are inspired by  https://github.com/nix-community/srvos
+
+
+https://github.com/nvmd/nixos-raspberrypi
+https://codeberg.org/Uli/nixsauce/
