@@ -1,0 +1,19 @@
+* [[https://discourse.nixos.org/t/what-happened-to-raspberry-pi-nix/62417/3][Discourse]]
+* Alternatives: https://github.com/nvmd/nixos-raspberrypi and https://codeberg.org/Uli/nixsauce
+
+* [[https://github.com/nix-community/raspberry-pi-nix/issues/134][Issue]]: Current setup is needlessly non-generic, stateful, while paradoxically also overcomplicated
+** sd-image is a mess.
+
+* See also https://github.com/NixOS/nixos-hardware/issues/1446 for a simple example to build an image
+
+
+
+The old process, using [[file:~/src/nixos/raspberry-pi-nix/sd-image/sd-image.nix::This module was lifted from nixpkgs installer code. It is modified][sd-image.nix]] is unnecessarily complicated. There is a simpler way in [[file:~/src/nixos/nixsauce-rpi/lib/rpi-image/default.nix::{][nixsauce]] and
+
+
+#+begin_src bash :results output
+  nixos-option -F '.#pi5-test' boot.kernelPackages.kernel.version -r
+#+end_src
+
+#+RESULTS:
+: boot.kernelPackages.kernel.version = "6.15.3";
