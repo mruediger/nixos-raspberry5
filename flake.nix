@@ -7,6 +7,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    rpi-linux-6_12-src = {
+      flake = false;
+      url = "github:raspberrypi/linux/rpi-6.12.y";
+    };
   };
 
   nixConfig = {
@@ -18,16 +23,23 @@
     ];
   };
 
-  outputs =
-    inputs:
-    with inputs;
+  outputs = args@{ self, nixpkgs, nixos-generators, nixos-hardware, ... }:
+    let
+      pkgs = import nixpkgs {
+        system = "aarch64-linux";
+        overlays = [ self.overlays.kernels ];
+      };
+    in
     {
+      overlays = {
+        kernels = import ./overlays/kernels.nix (builtins.removeAttrs args ["self"] );
+      };
       nixosConfigurations.pi5-test = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         modules = [
           {
             system.stateVersion = "25.05";
-            boot.kernelPackages = nixpkgs.legacyPackages.aarch64-linux.linuxPackages_latest;
+            boot.kernelPackages = pkgs.linuxPackagesFor pkgs.rpi5-kernel;
           }
           nixos-generators.nixosModules.all-formats
           nixos-hardware.nixosModules.raspberry-pi-5

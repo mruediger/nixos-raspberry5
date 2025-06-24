@@ -72,7 +72,25 @@
       "inputs": {
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "rpi-linux-6_12-src": "rpi-linux-6_12-src"
+      }
+    },
+    "rpi-linux-6_12-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1750754906,
+        "narHash": "sha256-lK0esjFhLvtBbyddMfa1H7ZcBbcOm2ygor338ZT5VpI=",
+        "owner": "raspberrypi",
+        "repo": "linux",
+        "rev": "8f77e03530f65209a377d25023e912b288e039cd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raspberrypi",
+        "ref": "rpi-6.12.y",
+        "repo": "linux",
+        "type": "github"
       }
     }
   },
