@@ -1,7 +1,7 @@
 {
   description = "Raspberry Pi 5";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +25,10 @@
       nixosConfigurations.pi5-test = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         modules = [
+          {
+            system.stateVersion = "25.05";
+            boot.kernelPackages = nixpkgs.legacyPackages.aarch64-linux.linuxPackages_latest;
+          }
           nixos-generators.nixosModules.all-formats
           nixos-hardware.nixosModules.raspberry-pi-5
         ];
